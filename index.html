@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Syntax Scanner - Prototype (v2.1)</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-storage-compat.js"></script>
+</head>
+<body>
+    <div id="game-container">
+        <!-- HUD -->
+        <div id="hud">
+            <div id="level-display">LEVEL: 1</div>
+            <div id="progress-display">OBJECTIVES: 0 / 0</div>
+        </div>
+
+        <canvas id="gameCanvas"></canvas>
+        
+        <!-- Recording Controls -->
+        <div id="recording-controls">
+            <button id="btn-record">START RECORDING</button>
+            <span id="recording-status" class="hidden">● REC</span>
+        </div>
+
+        <!-- Scanner UI Overlay -->
+        <div id="scanner-overlay" class="hidden">
+            <div id="scanner-ui">
+                <h2>SCANNING CORRUPTED DATA...</h2>
+                <div id="math-display"></div>
+                <div class="button-group">
+                    <button id="btn-expression">EXPRESSION</button>
+                    <button id="btn-sentence">SENTENCE</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Feedback Messages -->
+        <div id="feedback-overlay" class="hidden">
+            <h1 id="feedback-text"></h1>
+        </div>
+
+        <!-- Level Transition Overlay -->
+        <div id="transition-overlay" class="hidden">
+            <div id="transition-card">
+                <h1 id="transition-title">LEVEL COMPLETE</h1>
+                <div id="transition-stats">
+                    <p>Accuracy: <span id="accuracy-stat">0</span>%</p>
+                    <p>Errors: <span id="error-stat">0</span></p>
+                </div>
+                <button id="btn-next">PROCEED TO NEXT STAGE</button>
+            </div>
+        </div>
+
+        <!-- Instructions -->
+        <div id="instructions">
+            Use WASD or Arrows to move. Walk into <strong>RED GLITCHES</strong> to scan.
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

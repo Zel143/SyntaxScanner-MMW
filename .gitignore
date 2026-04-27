@@ -1,0 +1,27 @@
+# Firebase files
+.firebase/
+firebase-debug.log*
+.firebaserc
+firebase.json
+firestore.indexes.json
+firestore.rules
+storage.rules
+
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# Local environment
+.env
+.vscode/
+
+# Project specific
+*.original.md
+co1-alignment-plan.md
+dataset-expansion-plan.md
+firebase-recording-plan.md
+infinite-levels-plan.md
+level-progression-plan.md
+syntax-scanner-prototype.md
+dataset-expansion-plan.md
+co1-alignment-plan.md
