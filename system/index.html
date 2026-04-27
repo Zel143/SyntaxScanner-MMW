@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Syntax Scanner - Prototype (v2.1)</title>
+    <meta name="description" content="The Syntax Scanner — A math-code game where you classify mathematical expressions and sentences to restore a corrupted digital world.">
+    <title>The Syntax Scanner — Project Math-Code</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
@@ -12,55 +16,125 @@
     <script src="firebase-config.js"></script>
 </head>
 <body>
+
+    <!-- ═══ START SCREEN [U1] ═══ -->
+    <div id="start-overlay">
+        <div id="start-card">
+            <p id="start-subtitle">PROJECT MATH-CODE // SYSTEM v3.0</p>
+            <h1 id="start-title">THE SYNTAX<br>SCANNER</h1>
+            <p id="start-desc">
+                The digital world is corrupted. Math symbols have been scrambled.<br>
+                You are the <strong>Inspector</strong>. Walk into the red glitches.<br>
+                Classify each corrupted symbol to restore the world's logic.
+            </p>
+            <div id="start-legend">
+                <div class="legend-item">
+                    <span class="legend-dot expr-dot"></span>
+                    <strong>EXPRESSION</strong> — Math Noun. No relation symbol. e.g. <code>3x + 5</code>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-dot sent-dot"></span>
+                    <strong>SENTENCE</strong> — Math Verb. Has = &lt; &gt; ≤ ≥. e.g. <code>3x + 5 = 11</code>
+                </div>
+            </div>
+            <button id="btn-start">[ INITIALIZE SCAN PROTOCOL ]</button>
+            <p id="start-controls">WASD / Arrow Keys to move &nbsp;·&nbsp; Walk into RED GLITCHES to scan</p>
+        </div>
+    </div>
+
+    <!-- ═══ GAME ═══ -->
     <div id="game-container">
-        <!-- HUD -->
+
+        <!-- HUD [V6] -->
         <div id="hud">
             <div id="level-display">LEVEL: 1</div>
             <div id="progress-display">OBJECTIVES: 0 / 0</div>
+            <div id="score-display">SCORE: 0</div>
         </div>
 
         <canvas id="gameCanvas"></canvas>
-        
+
         <!-- Recording Controls -->
         <div id="recording-controls">
-            <button id="btn-record">START RECORDING</button>
+            <button id="btn-record">⏺ REC</button>
             <span id="recording-status" class="hidden">● REC</span>
         </div>
 
-        <!-- Scanner UI Overlay -->
+        <!-- Toast Notification [U5] -->
+        <div id="upload-toast" class="hidden"></div>
+
+        <!-- ═══ SCANNER OVERLAY ═══ -->
         <div id="scanner-overlay" class="hidden">
             <div id="scanner-ui">
-                <h2>SCANNING CORRUPTED DATA...</h2>
+                <h2 id="scanner-title">⚠ CORRUPTED DATA DETECTED</h2>
+                <div id="scanner-timer-bar"><div id="scanner-timer-fill"></div></div>
                 <div id="math-display"></div>
+                <p id="scanner-hint">Is this a Math <em>Noun</em> (Expression) or a Math <em>Verb</em> (Sentence)?</p>
                 <div class="button-group">
-                    <button id="btn-expression">EXPRESSION</button>
-                    <button id="btn-sentence">SENTENCE</button>
+                    <button id="btn-expression">
+                        <span class="btn-icon">Σ</span>
+                        EXPRESSION
+                        <span class="btn-sub">No relation symbol</span>
+                    </button>
+                    <button id="btn-sentence">
+                        <span class="btn-icon">=</span>
+                        SENTENCE
+                        <span class="btn-sub">Has = &lt; &gt; ≤ ≥</span>
+                    </button>
                 </div>
+                <!-- Post-answer explanation [U2] -->
+                <div id="scanner-explanation" class="hidden"></div>
             </div>
         </div>
 
-        <!-- Feedback Messages -->
+        <!-- Feedback Flash -->
         <div id="feedback-overlay" class="hidden">
             <h1 id="feedback-text"></h1>
         </div>
 
-        <!-- Level Transition Overlay -->
+        <!-- Level Transition -->
         <div id="transition-overlay" class="hidden">
             <div id="transition-card">
-                <h1 id="transition-title">LEVEL COMPLETE</h1>
+                <h1 id="transition-title">SECTOR RESTORED</h1>
                 <div id="transition-stats">
                     <p>Accuracy: <span id="accuracy-stat">0</span>%</p>
+                    <p>Correct: <span id="correct-stat" style="color:var(--primary-color)">0</span></p>
                     <p>Errors: <span id="error-stat">0</span></p>
                 </div>
                 <button id="btn-next">PROCEED TO NEXT STAGE</button>
             </div>
         </div>
 
-        <!-- Instructions -->
-        <div id="instructions">
-            Use WASD or Arrows to move. Walk into <strong>RED GLITCHES</strong> to scan.
+        <!-- ═══ GAME OVER / WIN SCREEN [B5] ═══ -->
+        <div id="game-over-overlay" class="hidden">
+            <div id="game-over-card">
+                <p id="game-over-subtitle">ALL SECTORS RESTORED</p>
+                <h1 id="game-over-title">SYSTEM INTEGRITY<br>RECOVERED</h1>
+                <div id="game-over-stats">
+                    <div class="stat-block">
+                        <span class="stat-value" id="final-accuracy">0%</span>
+                        <span class="stat-label">Final Accuracy</span>
+                    </div>
+                    <div class="stat-block">
+                        <span class="stat-value" id="final-score">0</span>
+                        <span class="stat-label">Total Score</span>
+                    </div>
+                    <div class="stat-block">
+                        <span class="stat-value" id="final-errors">0</span>
+                        <span class="stat-label">Errors Made</span>
+                    </div>
+                </div>
+                <button id="btn-restart">[ RESTART PROTOCOL ]</button>
+            </div>
         </div>
+
+        <!-- Instructions [V8 fix] -->
+        <div id="instructions">
+            WASD / Arrows to move &nbsp;·&nbsp; Walk into <strong>RED GLITCHES</strong> to scan
+        </div>
+
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
