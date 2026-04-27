@@ -1,11 +1,6 @@
 # Firebase files
 .firebase/
 firebase-debug.log*
-.firebaserc
-firebase.json
-firestore.indexes.json
-firestore.rules
-storage.rules
 
 # OS metadata
 .DS_Store
@@ -23,5 +18,8 @@ firebase-recording-plan.md
 infinite-levels-plan.md
 level-progression-plan.md
 syntax-scanner-prototype.md
-dataset-expansion-plan.md
-co1-alignment-plan.md
+
+# Keep documentation files
+!CO1_Project_Submission.md
+!Syntax-Scanner-Pitch.md
+!Project-Proposal-Formal-Draft.md

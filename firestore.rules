@@ -1,0 +1,10 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /telemetry/{document=**} {
+      // Allow anyone to write gameplay data (anonymous)
+      // Allow you to read it for checking
+      allow read, write: if true;
+    }
+  }
+}
