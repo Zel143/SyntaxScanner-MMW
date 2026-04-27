@@ -1,6 +1,7 @@
 # Firebase files
 .firebase/
 firebase-debug.log*
+system/firebase-config.js
 
 # OS metadata
 .DS_Store

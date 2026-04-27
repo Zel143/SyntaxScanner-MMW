@@ -3,25 +3,20 @@
  * Version: 2.1 (Level Progression + Progressive Complexity)
  */
 
-// 1. FIREBASE CONFIGURATION
-const firebaseConfig = {
-    apiKey: "AIzaSyDCjdNPvcfBb376e_jsjPGjQRAWSm2lN-I",
-    authDomain: "telemetry-e6aa9.firebaseapp.com",
-    projectId: "telemetry-e6aa9",
-    storageBucket: "telemetry-e6aa9.firebasestorage.app",
-    messagingSenderId: "21045192071",
-    appId: "1:21045192071:web:fa24cd08f554abe6325f22",
-    measurementId: "G-7B40YQRMJG"
-};
-
+// 1. FIREBASE INITIALIZATION
+// firebaseConfig is loaded from firebase-config.js
 let db, storage;
 try {
-    firebase.initializeApp(firebaseConfig);
-    db = firebase.firestore();
-    storage = firebase.storage();
-    console.log("Firebase Initialized.");
+    if (typeof firebaseConfig !== 'undefined') {
+        firebase.initializeApp(firebaseConfig);
+        db = firebase.firestore();
+        storage = firebase.storage();
+        console.log("Firebase Initialized.");
+    } else {
+        throw new Error("firebaseConfig not defined. Check firebase-config.js");
+    }
 } catch (e) {
-    console.warn("Firebase Local Mode.");
+    console.warn("Firebase running in Local Mode:", e.message);
 }
 
 const canvas = document.getElementById('gameCanvas');
